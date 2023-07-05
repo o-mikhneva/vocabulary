@@ -3,6 +3,7 @@
 from bs4 import BeautifulSoup
 import re
 import os
+from deep_translator import GoogleTranslator
 
 
 def cyrillic_match(string) -> bool:
@@ -30,8 +31,9 @@ for filename in os.listdir("ChatExport"):
 
 vocabulary = dict(sorted(vocabulary.items()))
 with open('vocabulary.txt', 'a', encoding='utf-16') as f:
-    for key in vocabulary:
-        if vocabulary[key] > 3:
-            f.write(f'{key}\n')
+    for word_ru in vocabulary:
+        if vocabulary[word_ru] > 3:
+            word_de = GoogleTranslator(source='ru', target='de').translate(word_ru)
+            f.write(f'{word_ru} -> {word_de}\n')
 
 print(vocabulary)
